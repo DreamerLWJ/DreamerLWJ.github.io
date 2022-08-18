@@ -16,21 +16,23 @@
   <meta name="author" content="luowenjun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="一起来学Go——CGO极简教程（上）前言本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下， -  放在前面的故事初见 C简单和我的朋友们介绍一下我与C&#x2F;C++的爱恨情仇。熟悉我的朋友知道，我是高三学习的 Java，对于我而言 Java 是我进入计算机世界的第一门语言。我是在大一学院开设的“C">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2022/08/17/hello-world/index.html">
+<meta property="og:title" content="脚踏实地">
+<meta property="og:url" content="http://example.com/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="脚踏实地">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="一起来学Go——CGO极简教程（上）前言本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下， -  放在前面的故事初见 C简单和我的朋友们介绍一下我与C&#x2F;C++的爱恨情仇。熟悉我的朋友知道，我是高三学习的 Java，对于我而言 Java 是我进入计算机世界的第一门语言。我是在大一学院开设的“C">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-08-17T14:33:03.210Z">
-<meta property="article:modified_time" content="2022-08-17T14:33:03.210Z">
+<meta property="og:image" content="http://example.com/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
+<meta property="article:published_time" content="2022-08-08T06:51:31.531Z">
+<meta property="article:modified_time" content="2022-08-18T07:48:09.258Z">
 <meta property="article:author" content="luowenjun">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
   
   
   
-  <title>Hello World - 脚踏实地</title>
+  <title>脚踏实地</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -223,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-17 22:33" pubdate>
-          2022年8月17日 晚上
+        <time datetime="2022-08-08 14:51" pubdate>
+          2022年8月8日 下午
         </time>
       </span>
     
@@ -235,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          367 字
+          2.4k 字
         
       </span>
     
@@ -246,7 +248,7 @@
         
         
         
-          4 分钟
+          21 分钟
         
       </span>
     
@@ -292,25 +294,61 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none"></h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h1 id="一起来学Go——CGO极简教程（上）"><a href="#一起来学Go——CGO极简教程（上）" class="headerlink" title="一起来学Go——CGO极简教程（上）"></a>一起来学Go——CGO极简教程（上）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下，</p>
+<p>- </p>
+<h2 id="放在前面的故事"><a href="#放在前面的故事" class="headerlink" title="放在前面的故事"></a>放在前面的故事</h2><h3 id="初见-C"><a href="#初见-C" class="headerlink" title="初见 C"></a>初见 C</h3><p>简单和我的朋友们介绍一下我与C&#x2F;C++的爱恨情仇。熟悉我的朋友知道，我是高三学习的 Java，对于我而言 Java 是我进入计算机世界的第一门语言。我是在大一学院开设的“C语言程序设计”这门课上学习到了C语言，那时候我写C语言有一股“OOP的味道”～。</p>
+<p>有了 Java 的基础学习 C 会非常快，那时候我很乐于帮助大家解决程序设计中的各种问题，尤其是“空指针”问题。（如图所示）</p>
+<img src="/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png" srcset="/img/loading.gif" lazyload class="" title="C空指针">
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p>那时候最让我有成就感的事情就是帮助同学们解决一个又一个 C 语言空指针问题，无论代码长短，无论代码写得怎么样，只要有空指针，我就能快速定位问题并给予解决建议。那段时间也是我非常快乐的时间。</p>
+<h3 id="步入-Android"><a href="#步入-Android" class="headerlink" title="步入 Android"></a>步入 Android</h3><p>大一的时候，由于学 Android 的人比较少，所以当时我加入的项目组基本都有开发 Android App 的需求，于是我在里边写各种各样的 App。</p>
+<p>那时候 Flutter Dart 或 Jetpack Compose 还没有现在那么热门，当时 Android 开发的主要语言就是 Java。但是 Java 的垃圾回收特性无法满足一些需求场景，比如视频流推拉，视频流处理等。当时我在 Android 平台上遇到的两大问题如下，</p>
+<ul>
+<li>尝试用 Java 进行视频转码，帧率高的时候引发 OutOfMemory</li>
+<li>视频流推拉 GC 过于紧张造成 App 卡顿，手机发热，偶尔遇到 OutOfMemory</li>
+</ul>
+<p>当时对于第一个问题，我最后的解决方案是通过编写 C&#x2F;C++ 动态链接库，以及通过 JNI 进行调用。</p>
+<p>对于第二个问题，我直接使用了 bilibili 站开源的 ijkPlayer 解决了，其中用到了开源的动态链接库，给你们看看我当时写的用来控制小车的 App 吧～</p>
+<p>[图片]</p>
+<blockquote>
+<p>ijkPlayer开源地址：<a target="_blank" rel="noopener" href="https://github.com/bilibili/ijkplayer.git">https://github.com/bilibili/ijkplayer.git</a></p>
+</blockquote>
+<h3 id="CGO-之旅"><a href="#CGO-之旅" class="headerlink" title="CGO 之旅"></a>CGO 之旅</h3><p>大二开始我就逐渐回到云计算的阵营，主要往后端、区块链方面靠。于是 Android 成为了我手中的“玩具”，如果有人需要我就偶尔拿出来用一下。C&#x2F;C++ 的应用似乎在我的视野中慢慢淡出。</p>
+<blockquote>
+<p>为了不忘记 Android 这门“手艺”，我自己总结了一套敏捷开发方法论，之后抽空写一篇文章会分享大家</p>
+</blockquote>
+<p>最近遇到一些需求，要用 C&#x2F;C++ 来封装一些 Go 的代码，实现加速和技术封装。不仅让我发现 Cgo 这个非常高效的特性，也让我重新拾回了遗落的点滴～，那么废话不说了，开始我们的 CGo 之旅吧！</p>
+<h2 id="CGO-简介"><a href="#CGO-简介" class="headerlink" title="CGO 简介"></a>CGO 简介</h2><p>Cgo 是 Go 语言自带的工具，来支持 C 语言的函数调用。Cgo 的主要目的是兼容 C&#x2F;C++ 庞大的软件资产。相较于其他语言的 C 本地调用功能，譬如 Java 的 JNI，Python 的 ctypes，CGO 具备简单易用的特性。基于它不仅可以轻易实现 Go 调用 C 函数，还能将 Go 函数导出给 C 调用。</p>
+<h2 id="Hello-CGO"><a href="#Hello-CGO" class="headerlink" title="Hello CGO"></a>Hello CGO</h2><p>废话不多说，直接上代码，看一个最简单的 Go 调用 C 的 <code>printf</code> 函数，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">void callPrintf()&#123;</span><br><span class="hljs-comment">   printf(&quot;%d&quot;, 666);</span><br><span class="hljs-comment">&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;C&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>   C.callPrintf()<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+<p>你可以试试看，运行结果如下，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs wiki">666<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+<p>这就是一个最简单的 CGO 示例了，有几个地方需要介绍一下。</p>
+<h3 id="1-import-“C”"><a href="#1-import-“C”" class="headerlink" title="1. import “C”"></a>1. import “C”</h3><p>这是 CGO 的基础语法，是打开跨语言大门的钥匙，任何 Go 与 C 之间的调用、参数转换等等，都需要通过这个导入这个虚拟的包 “C”。</p>
+<p>import “C” 语句需要<strong>独立一行</strong>，不能使用 Go 的批量 import 语句，并且位于它上方的注释，会被当作 C 语言代码，并且 C 语言代码所在的<strong>代码与 import “C” 之间不能够留有空行</strong>。</p>
+<p>注释不一定需要多行注释，单行注释也是可以生效的，如下所示，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">//#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">//void callPrintf()&#123;</span><br><span class="hljs-comment">// printf(&quot;%d&quot;, 666);</span><br><span class="hljs-comment">//&#125;</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;C&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>   C.callPrintf()<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><h2 id="链接库"><a href="#链接库" class="headerlink" title="链接库"></a>链接库</h2><h2 id="cgo"><a href="#cgo" class="headerlink" title="#cgo"></a>#cgo</h2><h2 id="Type-Convert"><a href="#Type-Convert" class="headerlink" title="Type Convert"></a>Type Convert</h2><h2 id="思考：CGO-真的比-Go-快吗？"><a href="#思考：CGO-真的比-Go-快吗？" class="headerlink" title="思考：CGO 真的比 Go 快吗？"></a>思考：CGO 真的比 Go 快吗？</h2><h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h2 id="令人流泪的坑"><a href="#令人流泪的坑" class="headerlink" title="令人流泪的坑"></a>令人流泪的坑</h2><h3 id="坑-1-——-MACOS-上-Library-not-loaded-xxx-so问题"><a href="#坑-1-——-MACOS-上-Library-not-loaded-xxx-so问题" class="headerlink" title="坑 1 —— MACOS 上 Library not loaded: xxx.so问题"></a>坑 1 —— MACOS 上 Library not loaded: xxx.so问题</h3><p><strong>问题复现</strong></p>
+<p><strong>解决办法</strong></p>
+<p>花了两天时间去多线程寻找解决方案，最后，感谢老外：<a target="_blank" rel="noopener" href="https://github.com/ibmdb/go_ibm_db/issues/24">https://github.com/ibmdb/go_ibm_db/issues/24</a></p>
+<p>MacOS 需要配置局部变量 <code>DYLD_LIBRARY_PATH</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">go run -exec &quot;env DYLD_LIBRARY_PATH=[你的so的位置]&quot; main.go<br></code></pre></td></tr></table></figure>
 
+<h3 id="坑-2-——-MACOS-上-GCC-的支持问题"><a href="#坑-2-——-MACOS-上-GCC-的支持问题" class="headerlink" title="坑 2 —— MACOS 上 GCC 的支持问题"></a>坑 2 —— MACOS 上 GCC 的支持问题</h3><p>日常感谢老外给我科普了 GCC 在 m1 上的支持问题，</p>
+<p><a target="_blank" rel="noopener" href="https://trinhminhchien.com/install-gcc-g-on-macos-monterey-apple-m1/">https://trinhminhchien.com/install-gcc-g-on-macos-monterey-apple-m1/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.phoronix.com/news/GCC-12-Apple-M1-Port-Plan">https://www.phoronix.com/news/GCC-12-Apple-M1-Port-Plan</a></p>
+<p>如果你所使用的 MAC 电脑是 M1，请安装 GCC 12 及以上的版本，而且同时注意 GCC 所依赖的其他包均为 arm64 架构</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>目前找过最好的 CGo 教程：<a target="_blank" rel="noopener" href="https://chai2010.cn/advanced-go-programming-book/ch2-cgo/index.html">https://chai2010.cn/advanced-go-programming-book/ch2-cgo/index.html</a></p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://pkg.go.dev/cmd/cgo">https://pkg.go.dev/cmd/cgo</a></p>
+<h3 id="坑-3-——-内存泄漏⚠️"><a href="#坑-3-——-内存泄漏⚠️" class="headerlink" title="坑 3 —— 内存泄漏⚠️"></a>坑 3 —— 内存泄漏⚠️</h3>
                 
               </div>
             
@@ -327,8 +365,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>http://example.com/2022/08/17/hello-world/</div>
+      <div></div>
+      <div>http://example.com/2022/08/08/Go系列——CGO 极简详解/</div>
     </div>
     <div class="license-meta">
       
@@ -340,7 +378,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月17日</div>
+          <div>2022年8月8日</div>
         </div>
       
       
@@ -370,9 +408,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/17/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" title="测试文章">
+                      <a href="/2022/08/17/hello-world/" title="Hello World">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">测试文章</span>
+                        <span class="hidden-mobile">Hello World</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -380,7 +418,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/" title="">
+                      <a href="/2022/08/01/%E4%BB%A3%E7%A0%81%E4%B8%8E%E8%89%BA%E6%9C%AF%E2%80%94%E2%80%94%E4%BB%8E%20COLA%20%E5%88%B0%E2%80%9C%E6%89%93%E6%89%AB%E5%8E%95%E6%89%80%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/" title="">
                         <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
