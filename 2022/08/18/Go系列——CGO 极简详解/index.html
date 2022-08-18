@@ -16,23 +16,23 @@
   <meta name="author" content="luowenjun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一起来学Go——CGO极简教程（上）123title: 一起来学Go——CGO极简教程（上）excerpt: 教你轻松玩转 CGOdate: 2022-8-18 10:00:00  前言本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下， -  放在前面的故事初见 C简单和我的朋友们介绍一下我与C&amp;#x">
+    <meta name="description" content="教你轻松玩转 CGO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="脚踏实地">
-<meta property="og:url" content="http://example.com/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/index.html">
-<meta property="og:site_name" content="脚踏实地">
-<meta property="og:description" content="一起来学Go——CGO极简教程（上）123title: 一起来学Go——CGO极简教程（上）excerpt: 教你轻松玩转 CGOdate: 2022-8-18 10:00:00  前言本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下， -  放在前面的故事初见 C简单和我的朋友们介绍一下我与C&amp;#x">
+<meta property="og:title" content="一起来学Go——CGO极简教程（上）">
+<meta property="og:url" content="http://example.com/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Dreamer&#39;s Blog">
+<meta property="og:description" content="教你轻松玩转 CGO">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
-<meta property="article:published_time" content="2022-08-08T06:51:31.531Z">
-<meta property="article:modified_time" content="2022-08-18T08:04:37.615Z">
+<meta property="og:image" content="http://example.com/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
+<meta property="article:published_time" content="2022-08-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-18T08:08:27.589Z">
 <meta property="article:author" content="luowenjun">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
+<meta name="twitter:image" content="http://example.com/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
   
   
   
-  <title>脚踏实地</title>
+  <title>一起来学Go——CGO极简教程（上） - Dreamer&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="一起来学Go——CGO极简教程（上）"></span>
           
         </div>
 
@@ -225,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-08 14:51" pubdate>
-          2022年8月8日 下午
+        <time datetime="2022-08-18 10:00" pubdate>
+          2022年8月18日 上午
         </time>
       </span>
     
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          2.4k 字
         
       </span>
     
@@ -294,18 +294,16 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">一起来学Go——CGO极简教程（上）</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="一起来学Go——CGO极简教程（上）"><a href="#一起来学Go——CGO极简教程（上）" class="headerlink" title="一起来学Go——CGO极简教程（上）"></a>一起来学Go——CGO极简教程（上）</h1><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">title:</span> <span class="hljs-string">一起来学Go——CGO极简教程（上）</span><br><span class="hljs-attr">excerpt:</span> <span class="hljs-string">教你轻松玩转</span> <span class="hljs-string">CGO</span><br><span class="hljs-attr">date:</span> <span class="hljs-number">2022-8</span><span class="hljs-number">-18</span> <span class="hljs-number">10</span><span class="hljs-string">:00:00</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下，</p>
+                <h1 id="一起来学Go——CGO极简教程（上）"><a href="#一起来学Go——CGO极简教程（上）" class="headerlink" title="一起来学Go——CGO极简教程（上）"></a>一起来学Go——CGO极简教程（上）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下，</p>
 <p>- </p>
 <h2 id="放在前面的故事"><a href="#放在前面的故事" class="headerlink" title="放在前面的故事"></a>放在前面的故事</h2><h3 id="初见-C"><a href="#初见-C" class="headerlink" title="初见 C"></a>初见 C</h3><p>简单和我的朋友们介绍一下我与C&#x2F;C++的爱恨情仇。熟悉我的朋友知道，我是高三学习的 Java，对于我而言 Java 是我进入计算机世界的第一门语言。我是在大一学院开设的“C语言程序设计”这门课上学习到了C语言，那时候我写C语言有一股“OOP的味道”～。</p>
 <p>有了 Java 的基础学习 C 会非常快，那时候我很乐于帮助大家解决程序设计中的各种问题，尤其是“空指针”问题。（如图所示）</p>
-<img src="/2022/08/08/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png" srcset="/img/loading.gif" lazyload class="" title="C空指针">
+<img src="/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png" srcset="/img/loading.gif" lazyload class="" title="C空指针">
 
 <p>那时候最让我有成就感的事情就是帮助同学们解决一个又一个 C 语言空指针问题，无论代码长短，无论代码写得怎么样，只要有空指针，我就能快速定位问题并给予解决建议。那段时间也是我非常快乐的时间。</p>
 <h3 id="步入-Android"><a href="#步入-Android" class="headerlink" title="步入 Android"></a>步入 Android</h3><p>大一的时候，由于学 Android 的人比较少，所以当时我加入的项目组基本都有开发 Android App 的需求，于是我在里边写各种各样的 App。</p>
@@ -367,8 +365,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://example.com/2022/08/08/Go系列——CGO 极简详解/</div>
+      <div>一起来学Go——CGO极简教程（上）</div>
+      <div>http://example.com/2022/08/18/Go系列——CGO 极简详解/</div>
     </div>
     <div class="license-meta">
       
@@ -380,7 +378,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月8日</div>
+          <div>2022年8月18日</div>
         </div>
       
       
@@ -410,18 +408,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/17/hello-world/" title="Hello World">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hello World</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/01/%E4%BB%A3%E7%A0%81%E4%B8%8E%E8%89%BA%E6%9C%AF%E2%80%94%E2%80%94%E4%BB%8E%20COLA%20%E5%88%B0%E2%80%9C%E6%89%93%E6%89%AB%E5%8E%95%E6%89%80%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/" title="">
-                        <span class="hidden-mobile"></span>
+                      <a href="/2022/08/17/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" title="测试文章">
+                        <span class="hidden-mobile">测试文章</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
