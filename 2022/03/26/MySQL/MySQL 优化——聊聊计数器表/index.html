@@ -16,23 +16,24 @@
   <meta name="author" content="luowenjun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="教你轻松玩转 CGO">
+    <meta name="description" content="如果你没有钱的话，我是说没有钱买缓存的话，这篇文章不妨看看？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一起来学Go——CGO极简教程（上）">
-<meta property="og:url" content="http://example.com/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:title" content="计数器表">
+<meta property="og:url" content="http://example.com/2022/03/26/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E8%81%8A%E8%81%8A%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/index.html">
 <meta property="og:site_name" content="Dreamer&#39;s Blog">
-<meta property="og:description" content="教你轻松玩转 CGO">
+<meta property="og:description" content="如果你没有钱的话，我是说没有钱买缓存的话，这篇文章不妨看看？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
-<meta property="article:published_time" content="2022-08-18T02:00:00.000Z">
-<meta property="article:modified_time" content="2022-08-18T08:14:36.404Z">
+<meta property="og:image" content="c:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/1.png">
+<meta property="og:image" content="c:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/2.png">
+<meta property="article:published_time" content="2022-03-26T04:21:00.000Z">
+<meta property="article:modified_time" content="2022-08-30T03:34:38.304Z">
 <meta property="article:author" content="luowenjun">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png">
+<meta name="twitter:image" content="c:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/1.png">
   
   
   
-  <title>一起来学Go——CGO极简教程（上） - Dreamer&#39;s Blog</title>
+  <title>计数器表 - Dreamer&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="一起来学Go——CGO极简教程（上）"></span>
+            <span id="subtitle" data-typed-text="计数器表"></span>
           
         </div>
 
@@ -225,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-18 10:00" pubdate>
-          2022年8月18日 上午
+        <time datetime="2022-03-26 12:21" pubdate>
+          2022年3月26日 中午
         </time>
       </span>
     
@@ -237,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          1.8k 字
         
       </span>
     
@@ -248,7 +249,7 @@
         
         
         
-          20 分钟
+          15 分钟
         
       </span>
     
@@ -294,67 +295,187 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">一起来学Go——CGO极简教程（上）</h1>
+            <h1 style="display: none">计数器表</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文旨在让使用Go语言做开发的同学通过简单的几十分钟至几小时快速掌握 Cgo 的使用，本文将会跳过复杂的底层原理介绍及不常用的功能。本文的内容如下，</p>
-<p>- </p>
-<h2 id="放在前面的故事"><a href="#放在前面的故事" class="headerlink" title="放在前面的故事"></a>放在前面的故事</h2><h3 id="初见-C"><a href="#初见-C" class="headerlink" title="初见 C"></a>初见 C</h3><p>简单和我的朋友们介绍一下我与C&#x2F;C++的爱恨情仇。熟悉我的朋友知道，我是高三学习的 Java，对于我而言 Java 是我进入计算机世界的第一门语言。我是在大一学院开设的“C语言程序设计”这门课上学习到了C语言，那时候我写C语言有一股“OOP的味道”～。</p>
-<p>有了 Java 的基础学习 C 会非常快，那时候我很乐于帮助大家解决程序设计中的各种问题，尤其是“空指针”问题。（如图所示）</p>
-<img src="/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/20210302235059216.png" srcset="/img/loading.gif" lazyload class="" title="C空指针">
-
-<p>那时候最让我有成就感的事情就是帮助同学们解决一个又一个 C 语言空指针问题，无论代码长短，无论代码写得怎么样，只要有空指针，我就能快速定位问题并给予解决建议。那段时间也是我非常快乐的时间。</p>
-<h3 id="步入-Android"><a href="#步入-Android" class="headerlink" title="步入 Android"></a>步入 Android</h3><p>大一的时候，由于学 Android 的人比较少，所以当时我加入的项目组基本都有开发 Android App 的需求，于是我在里边写各种各样的 App。</p>
-<p>那时候 Flutter Dart 或 Jetpack Compose 还没有现在那么热门，当时 Android 开发的主要语言就是 Java。但是 Java 的垃圾回收特性无法满足一些需求场景，比如视频流推拉，视频流处理等。当时我在 Android 平台上遇到的两大问题如下，</p>
-<ul>
-<li>尝试用 Java 进行视频转码，帧率高的时候引发 OutOfMemory</li>
-<li>视频流推拉 GC 过于紧张造成 App 卡顿，手机发热，偶尔遇到 OutOfMemory</li>
-</ul>
-<p>当时对于第一个问题，我最后的解决方案是通过编写 C&#x2F;C++ 动态链接库，以及通过 JNI 进行调用。</p>
-<p>对于第二个问题，我直接使用了 bilibili 站开源的 ijkPlayer 解决了，其中用到了开源的动态链接库，给你们看看我当时写的用来控制小车的 App 吧～</p>
-<p>[图片]</p>
-<blockquote>
-<p>ijkPlayer开源地址：<a target="_blank" rel="noopener" href="https://github.com/bilibili/ijkplayer.git">https://github.com/bilibili/ijkplayer.git</a></p>
+                <blockquote>
+<p>公众号：技术小厨师</p>
+<p>关注小厨师，烹饪美味的技术餐</p>
 </blockquote>
-<h3 id="CGO-之旅"><a href="#CGO-之旅" class="headerlink" title="CGO 之旅"></a>CGO 之旅</h3><p>大二开始我就逐渐回到云计算的阵营，主要往后端、区块链方面靠。于是 Android 成为了我手中的“玩具”，如果有人需要我就偶尔拿出来用一下。C&#x2F;C++ 的应用似乎在我的视野中慢慢淡出。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>许多论坛或者电商系统都具备点赞数、评论数、浏览数等“计数”功能，好的设计可以实现不低并发量且精确的计数器需求。本文将抛开中间件等额外的设计，从 MySQL 出发简单聊聊如何设计计数器表。</p>
+<h2 id="糟糕的设计"><a href="#糟糕的设计" class="headerlink" title="糟糕的设计"></a>糟糕的设计</h2><p>下面以论坛系统为例子介绍其中一种计数器表设计，下面给出这个最简单的设计，我们有这样一个表 post，承担着主要的帖子读写业务，其中一个高频写入功能为帖子的点赞计数功能。</p>
+<table>
+<thead>
+<tr>
+<th>post_id</th>
+<th>post_content</th>
+<th>··· 其他列 ···</th>
+<th>likes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>## content ##</td>
+<td>···</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>## content ##</td>
+<td>···</td>
+<td>5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>## content ##</td>
+<td>···</td>
+<td>2</td>
+</tr>
+<tr>
+<td>···</td>
+<td>···</td>
+<td>···</td>
+<td>···</td>
+</tr>
+</tbody></table>
+<p>这个设计对于并发量很低的系统来说，可能没有什么问题，但是当并发量增加时，点赞的并发性能将会成为系统的瓶颈。</p>
 <blockquote>
-<p>为了不忘记 Android 这门“手艺”，我自己总结了一套敏捷开发方法论，之后抽空写一篇文章会分享大家</p>
+<p>点赞是用户无意识的行为，在社交论坛上，点赞的触发次数远大于其他功能，对点赞计数的优化是非常重要的。</p>
 </blockquote>
-<p>最近遇到一些需求，要用 C&#x2F;C++ 来封装一些 Go 的代码，实现加速和技术封装。不仅让我发现 Cgo 这个非常高效的特性，也让我重新拾回了遗落的点滴～，那么废话不说了，开始我们的 CGo 之旅吧！</p>
-<h2 id="CGO-简介"><a href="#CGO-简介" class="headerlink" title="CGO 简介"></a>CGO 简介</h2><p>Cgo 是 Go 语言自带的工具，来支持 C 语言的函数调用。Cgo 的主要目的是兼容 C&#x2F;C++ 庞大的软件资产。相较于其他语言的 C 本地调用功能，譬如 Java 的 JNI，Python 的 ctypes，CGO 具备简单易用的特性。基于它不仅可以轻易实现 Go 调用 C 函数，还能将 Go 函数导出给 C 调用。</p>
-<h2 id="Hello-CGO"><a href="#Hello-CGO" class="headerlink" title="Hello CGO"></a>Hello CGO</h2><p>废话不多说，直接上代码，看一个最简单的 Go 调用 C 的 <code>printf</code> 函数，</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">void callPrintf()&#123;</span><br><span class="hljs-comment">   printf(&quot;%d&quot;, 666);</span><br><span class="hljs-comment">&#125;</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;C&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>   C.callPrintf()<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>首先我们必须明确，我们增加某个点赞计数时使用的 SQL 语句，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> post <span class="hljs-keyword">set</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">+</span> <span class="hljs-number">1</span> <span class="hljs-keyword">where</span> post_id <span class="hljs-operator">=</span> ?<br></code></pre></td></tr></table></figure>
 
-<p>你可以试试看，运行结果如下，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs wiki">666<br></code></pre></td></tr></table></figure>
+<p>我们知道，一个事务在更新某一行时，如果 where 子句使用的是索引，那么该事务需要首先获取该行的互斥锁。多个并发事务想要增加同一个帖子的点赞量时，这种设计将会使得这些事务只能串行执行。如图所示，</p>
+<img src="C:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/1.png" srcset="/img/loading.gif" lazyload  />
 
-<p>这就是一个最简单的 CGO 示例了，有几个地方需要介绍一下。</p>
-<h3 id="1-import-“C”"><a href="#1-import-“C”" class="headerlink" title="1. import “C”"></a>1. import “C”</h3><p>这是 CGO 的基础语法，是打开跨语言大门的钥匙，任何 Go 与 C 之间的调用、参数转换等等，都需要通过这个导入这个虚拟的包 “C”。</p>
-<p>import “C” 语句需要<strong>独立一行</strong>，不能使用 Go 的批量 import 语句，并且位于它上方的注释，会被当作 C 语言代码，并且 C 语言代码所在的<strong>代码与 import “C” 之间不能够留有空行</strong>。</p>
-<p>注释不一定需要多行注释，单行注释也是可以生效的，如下所示，</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">//#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">//void callPrintf()&#123;</span><br><span class="hljs-comment">// printf(&quot;%d&quot;, 666);</span><br><span class="hljs-comment">//&#125;</span><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;C&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>   C.callPrintf()<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h3><h2 id="链接库"><a href="#链接库" class="headerlink" title="链接库"></a>链接库</h2><h2 id="cgo"><a href="#cgo" class="headerlink" title="#cgo"></a>#cgo</h2><h2 id="Type-Convert"><a href="#Type-Convert" class="headerlink" title="Type Convert"></a>Type Convert</h2><h2 id="思考：CGO-真的比-Go-快吗？"><a href="#思考：CGO-真的比-Go-快吗？" class="headerlink" title="思考：CGO 真的比 Go 快吗？"></a>思考：CGO 真的比 Go 快吗？</h2><h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h2 id="令人流泪的坑"><a href="#令人流泪的坑" class="headerlink" title="令人流泪的坑"></a>令人流泪的坑</h2><h3 id="坑-1-——-MACOS-上-Library-not-loaded-xxx-so问题"><a href="#坑-1-——-MACOS-上-Library-not-loaded-xxx-so问题" class="headerlink" title="坑 1 —— MACOS 上 Library not loaded: xxx.so问题"></a>坑 1 —— MACOS 上 Library not loaded: xxx.so问题</h3><p><strong>问题复现</strong></p>
-<p><strong>解决办法</strong></p>
-<p>花了两天时间去多线程寻找解决方案，最后，感谢老外：<a target="_blank" rel="noopener" href="https://github.com/ibmdb/go_ibm_db/issues/24">https://github.com/ibmdb/go_ibm_db/issues/24</a></p>
-<p>MacOS 需要配置局部变量 <code>DYLD_LIBRARY_PATH</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">go run -exec &quot;env DYLD_LIBRARY_PATH=[你的so的位置]&quot; main.go<br></code></pre></td></tr></table></figure>
 
-<h3 id="坑-2-——-MACOS-上-GCC-的支持问题"><a href="#坑-2-——-MACOS-上-GCC-的支持问题" class="headerlink" title="坑 2 —— MACOS 上 GCC 的支持问题"></a>坑 2 —— MACOS 上 GCC 的支持问题</h3><p>日常感谢老外给我科普了 GCC 在 m1 上的支持问题，</p>
-<p><a target="_blank" rel="noopener" href="https://trinhminhchien.com/install-gcc-g-on-macos-monterey-apple-m1/">https://trinhminhchien.com/install-gcc-g-on-macos-monterey-apple-m1/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.phoronix.com/news/GCC-12-Apple-M1-Port-Plan">https://www.phoronix.com/news/GCC-12-Apple-M1-Port-Plan</a></p>
-<p>如果你所使用的 MAC 电脑是 M1，请安装 GCC 12 及以上的版本，而且同时注意 GCC 所依赖的其他包均为 arm64 架构</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>目前找过最好的 CGo 教程：<a target="_blank" rel="noopener" href="https://chai2010.cn/advanced-go-programming-book/ch2-cgo/index.html">https://chai2010.cn/advanced-go-programming-book/ch2-cgo/index.html</a></p>
-<p>官方文档：<a target="_blank" rel="noopener" href="https://pkg.go.dev/cmd/cgo">https://pkg.go.dev/cmd/cgo</a></p>
-<h3 id="坑-3-——-内存泄漏⚠️"><a href="#坑-3-——-内存泄漏⚠️" class="headerlink" title="坑 3 —— 内存泄漏⚠️"></a>坑 3 —— 内存泄漏⚠️</h3>
+<p>如果同一时间出现热门帖子时，多个用户同时点赞将会导致大量的数据库连接处于等待状态。为了优化这种事务串行的问题，我们介绍一种低成本且有效的方案——<strong>计数器表</strong>。</p>
+<h2 id="计数器表优化"><a href="#计数器表优化" class="headerlink" title="计数器表优化"></a>计数器表优化</h2><p>现在我们希望将帖子的点赞计数移到另外的表 post_counter，并且做一些冗余设计。</p>
+<table>
+<thead>
+<tr>
+<th>post_id</th>
+<th>slot</th>
+<th>likes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>···</td>
+<td></td>
+<td>···</td>
+</tr>
+</tbody></table>
+<p>DDL语句如下，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> post_counter<br>(<br>    post_id <span class="hljs-type">int</span>              <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    slot    tinyint unsigned <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    likes   <span class="hljs-type">int</span> <span class="hljs-keyword">default</span> <span class="hljs-number">0</span>    <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>对于每个 post_id，我们<strong>预先创建 5 行数据，同一个 post_id 的不同行用 slot（槽）标识</strong>。如果我们要进行增加点赞数，其 SQL 语句如下所示，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> post_counter <span class="hljs-keyword">set</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">+</span> <span class="hljs-number">1</span> <span class="hljs-keyword">where</span> slot <span class="hljs-operator">=</span> rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span> <span class="hljs-keyword">and</span> post_id <span class="hljs-operator">=</span> ?;<br></code></pre></td></tr></table></figure>
+
+<p>相应的减少点赞数如下所示，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> post_counter <span class="hljs-keyword">set</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">-</span> <span class="hljs-number">1</span> <span class="hljs-keyword">where</span> slot <span class="hljs-operator">=</span> rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span> <span class="hljs-keyword">and</span> post_id <span class="hljs-operator">=</span> ?;<br></code></pre></td></tr></table></figure>
+
+<p>读者很容易发现，并发事务对同一个帖子的点赞数更新操作将会被随机分散到 5 行数据中，如图所示，</p>
+<img src="C:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/2.png" srcset="/img/loading.gif" lazyload  />
+
+
+
+<p>这样能够很好地解决前面所提到的并发事务串行操作的问题。如果我们要获取一个帖子的点赞数，我们只需要做一个聚合查询即可，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">sum</span>(likes) <span class="hljs-keyword">from</span> post_counter <span class="hljs-keyword">where</span> post_id <span class="hljs-operator">=</span> ?;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>每个帖子都预先创建 5 行会不会导致表的行数过多？</strong></p>
+<p>我们知道有个帖子可能发出来很长一段时间都没有人点赞，或者点赞数稀少，对于这种情况，预留 5 行会显得比较多余。于是，我们可以选择 update 的时候动态创建，这时候我们可以使用 on duplicate key 子句来解决这个需求。因此新的增加点赞语句如下所示，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> post_counter (post_id, likes, slot) <span class="hljs-keyword">values</span>(?, <span class="hljs-number">1</span>, rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span>) <span class="hljs-keyword">on</span> duplicate key <span class="hljs-keyword">update</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">+</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<p>相应的减少点赞数的语句如下，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> post_counter (post_id, likes, slot) <span class="hljs-keyword">values</span>(?, <span class="hljs-number">-1</span>, rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span>) <span class="hljs-keyword">on</span> duplicate key <span class="hljs-keyword">update</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">-</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了计数器表的设计方法，其适用于各种高频的计数需求。本文为了简单演示，使用的随机数窗口为 5，实际生产中，读者可以通过逐步增加窗口值大小，并通过压力测试来查看锁等待时间，以找到合适当前业务的窗口大小。</p>
+<p>至于有关 Redis 的高并发点赞计数我们以后再聊。不过作者认为，任何优化都应该优先考虑数据库层面的优化，在数据库层面优化没有达标的情况下，通过引入中间件缓存不过是堆积成本的暴力方法罢了。</p>
+
                 
               </div>
             
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/MySQL%E4%BC%98%E5%8C%96/" class="category-chain-item">MySQL优化</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
@@ -365,8 +486,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>一起来学Go——CGO极简教程（上）</div>
-      <div>http://example.com/2022/08/18/Go系列——CGO 极简详解/</div>
+      <div>计数器表</div>
+      <div>http://example.com/2022/03/26/MySQL/MySQL 优化——聊聊计数器表/</div>
     </div>
     <div class="license-meta">
       
@@ -378,7 +499,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月18日</div>
+          <div>2022年3月26日</div>
         </div>
       
       
@@ -408,9 +529,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/18/%E4%BB%A3%E7%A0%81%E4%B8%8E%E8%89%BA%E6%9C%AF%E2%80%94%E2%80%94%E4%BB%8E%20COLA%20%E5%88%B0%E2%80%9C%E6%89%93%E6%89%AB%E5%8E%95%E6%89%80%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/" title="代码与艺术——从 COLA 到“打扫厕所”（上）">
+                      <a href="/2022/04/28/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" title="分页查询优化">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">代码与艺术——从 COLA 到“打扫厕所”（上）</span>
+                        <span class="hidden-mobile">分页查询优化</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -418,8 +539,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/28/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" title="分页查询优化">
-                        <span class="hidden-mobile">分页查询优化</span>
+                      <a href="/2022/03/20/Java%E5%BA%8F%E5%88%97%E5%8C%96%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/" title="Java序列化源码解析（一）">
+                        <span class="hidden-mobile">Java序列化源码解析（一）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -1,0 +1,1045 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luowenjun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="你的分页方法能扛多久？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分页查询优化">
+<meta property="og:url" content="http://example.com/2022/04/28/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Dreamer&#39;s Blog">
+<meta property="og:description" content="你的分页方法能扛多久？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204281221643.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204272255961.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204281514618.png">
+<meta property="article:published_time" content="2022-04-28T04:21:00.000Z">
+<meta property="article:modified_time" content="2022-08-30T03:34:48.983Z">
+<meta property="article:author" content="luowenjun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204281221643.png">
+  
+  
+  
+  <title>分页查询优化 - Dreamer&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"R4zu5FuwBMSxa84v6c17lK3r-gzGzoHsz","app_key":"XzeFn14YlO1IsQ7OcCIXPdxn","server_url":"https://r4zu5fuw.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dreamer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="分页查询优化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-28 12:21" pubdate>
+          2022年4月28日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">分页查询优化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>公众号：技术小厨师</p>
+<p>关注小厨师，烹饪美味的技术餐</p>
+</blockquote>
+<h2 id="分页查询简介"><a href="#分页查询简介" class="headerlink" title="分页查询简介"></a>分页查询简介</h2><p>可以说，如果读者参与过网络应用的开发，分页查询一定是家常便饭了。比如电商商品列表，论坛帖子列表等等。而一般来说，分页查询其实包括以下两种。</p>
+<ul>
+<li>逻辑分页：在用户第一次访问时，将数据全部查出，添加到 Session 中，然后通过页码和页大小查出其中一部分返回给用户。缺点非常明显，如果数据量比较大的话，将耗费大量的内存；如果数据频繁更新，则内存中的数据容易过期，需要频繁更新。</li>
+<li>物理分页：使用数据库自身的分页机制，每一次分页都会去查询数据库。</li>
+</ul>
+<p>本文只重点介绍物理分页及其优化方案。</p>
+<p>常见的分页查询语句如下，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> [col1, col2 ...] <span class="hljs-keyword">from</span> [table_name] <span class="hljs-keyword">where</span> cond1 [<span class="hljs-keyword">and</span><span class="hljs-operator">/</span><span class="hljs-keyword">or</span>] cond2 ... limit [<span class="hljs-keyword">offset</span>], [length];<br></code></pre></td></tr></table></figure>
+
+<p>分页要关注只有两个参数，</p>
+<ul>
+<li><code>offset</code>（可选）：偏移量，指从表第一行开始，可以理解为页起始位。</li>
+<li><code>length</code>：目标行数，可以理解为页大小。</li>
+</ul>
+<p>希望读者注意一点，分页不是指对表的所有行记录进行分页查询，而是<strong>对表中符合条件的所有行记录</strong>进行分页查询。</p>
+<p>当然，如果没有条件或者表中行记录均符合条件的话，那就等价于对表中的所有行记录进行分页查询。</p>
+<blockquote>
+<p>为什么这一点很重要？因为如果认为分页查询的对象是指表中的所有行，那么在后续的阅读中可能会陷入一个问题，</p>
+<p>“为什么 MySQL 不能像数组那样直接定位 offset 的位置，而是一直遍历直到找到符合条件的行记录呢？”</p>
+</blockquote>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>假设我们有这样一个场景，某电商系统使用了如下所示的表来存储商品信息，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> good_info<br>(<br>    good_id     <span class="hljs-type">bigint</span>        <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br>        <span class="hljs-keyword">primary</span> key,<br>    good_name   <span class="hljs-type">varchar</span>(<span class="hljs-number">50</span>)   <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    good_desc   <span class="hljs-type">varchar</span>(<span class="hljs-number">200</span>)  <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    state       tinyint       <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    create_time <span class="hljs-type">int</span>     <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    sell_count  <span class="hljs-type">int</span> <span class="hljs-keyword">default</span> <span class="hljs-number">0</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br>);<br><br><span class="hljs-keyword">create</span> index good_info_create_time_index<br>    <span class="hljs-keyword">on</span> good_info (create_time <span class="hljs-keyword">desc</span>);<br></code></pre></td></tr></table></figure>
+
+<p>各个字段的意义如下，</p>
+<ul>
+<li>good_id：商品唯一 id</li>
+<li>good_name：商品名称</li>
+<li>good_desc：商品描述</li>
+<li>state：商品状态，这里假定存在两种状态，正在出售和库存不足</li>
+<li>create_time：发布时间，为了方便后续的测试数据生成，我们使用整数来代替 timestamp 或 datetime</li>
+<li>sell_count：销售量</li>
+</ul>
+<p>我们接下来使用<code>存储过程</code>来给它添加一点点数据，</p>
+<p><strong>定义随机字符串生成函数</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">FUNCTION</span> rand_string(n <span class="hljs-type">int</span>) <span class="hljs-keyword">RETURNS</span> <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>)<br><span class="hljs-keyword">begin</span><br>  <span class="hljs-keyword">declare</span> chars_str <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">default</span> <span class="hljs-string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#x27;</span>;<br>  <span class="hljs-keyword">declare</span> return_str <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">default</span> <span class="hljs-string">&#x27;&#x27;</span>;<br>  <span class="hljs-keyword">declare</span> i <span class="hljs-type">int</span> <span class="hljs-keyword">default</span> <span class="hljs-number">0</span>;<br>  while i <span class="hljs-operator">&lt;</span> n do<br>      <span class="hljs-keyword">set</span> return_str<span class="hljs-operator">=</span>concat(return_str,<span class="hljs-built_in">substring</span>(chars_str,<span class="hljs-built_in">floor</span>(<span class="hljs-number">1</span><span class="hljs-operator">+</span>rand()<span class="hljs-operator">*</span><span class="hljs-number">62</span>),<span class="hljs-number">1</span>));<br>      <span class="hljs-keyword">set</span> i<span class="hljs-operator">=</span> i<span class="hljs-operator">+</span><span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">end</span> while;<br>  <span class="hljs-keyword">return</span> return_str;<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>定义数据生成存储过程</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span><br>    definer <span class="hljs-operator">=</span> lwj<span class="hljs-variable">@localhost</span> <span class="hljs-keyword">procedure</span> gen_data(<span class="hljs-keyword">IN</span> n <span class="hljs-type">int</span>)<br><span class="hljs-keyword">BEGIN</span><br>  <span class="hljs-keyword">DECLARE</span> i <span class="hljs-type">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">1</span>;<br>    WHILE (i <span class="hljs-operator">&lt;=</span> n ) DO<br>      <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> good_info (good_id, good_name, good_desc, state, create_time) <span class="hljs-keyword">VALUEs</span> (i, rand_string(<span class="hljs-number">20</span>), rand_string(<span class="hljs-number">50</span>), <span class="hljs-built_in">FLOOR</span>(RAND() <span class="hljs-operator">*</span> <span class="hljs-number">2</span>) , <span class="hljs-built_in">FLOOR</span>(RAND() <span class="hljs-operator">*</span> <span class="hljs-number">1000000</span>));<br>            <span class="hljs-keyword">set</span> i<span class="hljs-operator">=</span>i<span class="hljs-operator">+</span><span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">END</span> WHILE;<br><span class="hljs-keyword">END</span>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>执行存储过程</strong></p>
+<p>这里作者选择随机生成 1 千万行数据，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">call</span> gen_data(<span class="hljs-number">10000000</span>);<br></code></pre></td></tr></table></figure>
+
+<p>执行了 28 m 57 s，终于成功生成了 1 千万条测试数据，</p>
+<p><img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204281221643.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>读者可能会疑惑，为什么不选择其他外部的测试数据生成方法而选择存储过程。的确，外部生成方式更加灵活，但是性能远比存储过程差，存储过程自创建后就编译并存储在MySQL中。</p>
+</blockquote>
+<h2 id="分页查询的问题"><a href="#分页查询的问题" class="headerlink" title="分页查询的问题"></a>分页查询的问题</h2><h3 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h3><p>假如我们有以下的这个分页查询语句，我们调整 offset 和 length，统计查询的平均耗时，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> create_time <span class="hljs-keyword">desc</span> limit ?, ?;<br></code></pre></td></tr></table></figure>
+
+<p>如下为测试结果，</p>
+<table>
+<thead>
+<tr>
+<th>offset</th>
+<th>length</th>
+<th>查询耗时（ms）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100</td>
+<td>20</td>
+<td>25</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>20</td>
+<td>48</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>20</td>
+<td>809</td>
+</tr>
+<tr>
+<td>100000</td>
+<td>20</td>
+<td>13762</td>
+</tr>
+<tr>
+<td>1000000</td>
+<td>20</td>
+<td>18966</td>
+</tr>
+</tbody></table>
+<p>我们来 <code>explain</code> 一下各个语句，对于 offset 为 10000 及以下的情况如下，</p>
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="center">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">good_info</td>
+<td align="left">NULL</td>
+<td align="left">index</td>
+<td align="left">NULL</td>
+<td align="left">good_info_create_time_index</td>
+<td align="left">4</td>
+<td align="center">NULL</td>
+<td align="left">120</td>
+<td align="left">100</td>
+<td align="left">NULL</td>
+</tr>
+</tbody></table>
+<p>对于 offset 为 100000 及以上的情况如下，</p>
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">good_info</td>
+<td align="left">NULL</td>
+<td align="left">ALL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">9933232</td>
+<td align="left">100</td>
+<td align="left">Using filesort</td>
+</tr>
+</tbody></table>
+<p>可以看到 <code>offset</code> 为 10000 及左右情况下，优化器还是会选择走索引的，但是像 100000 及以上的情况下，优化器会选择全表，这是为什么呢？为了揭晓这个答案我们可以使用 <code>hint</code>（优化器提示）来强制走索引，看看是怎么一回事儿。</p>
+<p>对于 <code>offset</code> 为 100000 的情况，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info force index(good_info_create_time_index) <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> create_time <span class="hljs-keyword">desc</span> limit <span class="hljs-number">100000</span>, <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+
+<p>统计结果耗时为 7922ms，这时候是比优化器选择的全表要快的。</p>
+<p>对于 <code>offset</code> 为 1000000 的情况，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info force index(good_info_create_time_index) <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> create_time <span class="hljs-keyword">desc</span> limit <span class="hljs-number">1000000</span>, <span class="hljs-number">20</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>统计结果耗时为 1m 6s 4ms！</strong></p>
+<p>也就是说，在 <code>offset</code> 比较大的时候优化器会选择全表而不是查询，因为<strong>全表可能会比走索引更加快</strong>。</p>
+<blockquote>
+<p>读者必须知道优化器并不总是精确的，它是一个综合了各项指标的经验机器，所以才会出现 100000 的情况下不走索引。</p>
+</blockquote>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>分页查询的问题本质上其实是 <code>offset</code> 的问题，首先我们要知道分页查询的过程中，SQL 的执行流程。</p>
+<p>SQL 走索引的执行流程如图所示，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204272255961.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+
+<p>在分页查询中，对于每一行来说都要经过以下的过程，</p>
+<ol>
+<li>通过二级索引查找找到对应的行的主键</li>
+<li>通过主键找到对应的行记录</li>
+<li>通过行记录判断该行是否符合 where 条件</li>
+</ol>
+<p>也就是说，默认的分页查询中会产生非常多次数的回表查询，<code>offset</code> 为 10000，<code>length</code> 为 20 的情况下，SQL 走索引至少要回表查询 10020 次。</p>
+<p>在表中的数据量日渐庞大的情况下，回表查询的代价也是不断上升的，<strong>最终会导致分页走索引的代价比全表查询要高</strong>，所以优化器才会在 <code>offset</code> 较大的情况下选择走全表而不是索引。</p>
+<h2 id="优化分页查询的思路"><a href="#优化分页查询的思路" class="headerlink" title="优化分页查询的思路"></a>优化分页查询的思路</h2><h3 id="id-范围查询"><a href="#id-范围查询" class="headerlink" title="id 范围查询"></a>id 范围查询</h3><p>理想状态下，如果读者想要优化的表具备以下特点，则可以使用 <strong>id 范围查询</strong>来直接定位到需要的数据页范围，</p>
+<ul>
+<li>主键是严格自增的</li>
+<li>表中的数据一经 insert，就不会 delete 的</li>
+<li>主键列不会被修改</li>
+</ul>
+<p>优化前：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> create_time <span class="hljs-keyword">desc</span> limit <span class="hljs-number">1000000</span>, <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+
+<p>耗时 13762ms</p>
+<p>优化后：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info <span class="hljs-keyword">where</span> good_id <span class="hljs-keyword">between</span> <span class="hljs-number">1000000</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1000020</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> create_time <span class="hljs-keyword">desc</span>;<br></code></pre></td></tr></table></figure>
+
+<p>耗时 10ms，简直是质的飞跃啊！explain 一下，</p>
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">good_info</td>
+<td align="left">NULL</td>
+<td align="left">range</td>
+<td align="left">PRIMARY</td>
+<td align="left">PRIMARY</td>
+<td align="left">8</td>
+<td align="left">NULL</td>
+<td align="left">21</td>
+<td align="left">100</td>
+<td align="left">Using where; Using filesort</td>
+</tr>
+</tbody></table>
+<p>进一步，因为 id 总是自增的，所以后发布的商品其 id 总是更加大一些，所以如果我们可以根据 good_id 来进行排序，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">explain <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info <span class="hljs-keyword">where</span> good_id <span class="hljs-keyword">between</span> <span class="hljs-number">1000000</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1000020</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> good_id <span class="hljs-keyword">desc</span>;<br></code></pre></td></tr></table></figure>
+
+<p>explain 一下就发现 Extra 中的 <code>filesort</code> 变成为了 <code>Backward index scan</code>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">SIMPLE</td>
+<td align="left">good_info</td>
+<td align="left">NULL</td>
+<td align="left">range</td>
+<td align="left">PRIMARY</td>
+<td align="left">PRIMARY</td>
+<td align="left">8</td>
+<td align="left">NULL</td>
+<td align="left">21</td>
+<td align="left">100</td>
+<td align="left">Using where; Backward index scan</td>
+</tr>
+</tbody></table>
+<p>这两者效率有什么不同？简单来说，filesort 需要做一次额外的排序工作，而 Backward index scan 利用了<strong>主键列索引双向链表</strong>直接获得排序后的结果，无需额外的排序工作。</p>
+<blockquote>
+<p>InnoDB 主键列 B+ 树叶子结点按照主键的大小升序排序，而我们的查询要求降序排序，于是查询会使用叶子结点双向链表倒序扫描来获取结果。</p>
+</blockquote>
+<h3 id="标签法"><a href="#标签法" class="headerlink" title="标签法"></a>标签法</h3><p><strong>id 范围查询</strong>的条件是非常理想的，如果服务有分布式的需求的话，可能会将 id 变更为分布式一致性 id，比如雪花 id 等。在这种情况下主键就不是严格自增的了，也就无法使用上述的 <strong>id 范围查询</strong>来优化。本节介绍的标签法则也是一种比较好的方法，能克服上述问题。</p>
+<p>标签法利用历史分页记录来实现，结合了实际的应用场景，我们想象一下在社交论坛列表或者电商商品列表中，用户的行为总是向下滑。换言之，这些场景下的分页查询中，用户请求总是请求”下一页“。</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/202204281514618.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+
+<p>于是，我们可以用另外的表记录用户的“上一页”的位置，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> user_page<br>(<br>    user_id     <span class="hljs-type">int</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br>        <span class="hljs-keyword">primary</span> key,<br>    next_offset <span class="hljs-type">int</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br>);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>user_id：用户的业务 id</li>
+<li>next_offset：该用户下一次分页查询的起始位置</li>
+</ul>
+<p>然后在分页查询的时候使用“历史”表，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> good_info <span class="hljs-keyword">where</span> good_id <span class="hljs-operator">&gt;=</span> (<span class="hljs-keyword">select</span> next_offset <span class="hljs-keyword">from</span> user_page <span class="hljs-keyword">where</span> user_id <span class="hljs-operator">=</span> ?) limit <span class="hljs-number">20</span>;<br><span class="hljs-keyword">update</span> user_page <span class="hljs-keyword">set</span> next_offset <span class="hljs-operator">=</span> next_offset <span class="hljs-operator">+</span> <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这里通过子查询得到了下一次分页 good_id 的起始位置，limit 参数只用于指定页大小。每次分页查询结束后，更新下一次用户的起始位置。</p>
+<p>耗时 29 + 16 ms。也是一种非常不错的方案。</p>
+<h3 id="延迟关联"><a href="#延迟关联" class="headerlink" title="延迟关联"></a>延迟关联</h3><p>如果你的表存在非尾部插入、删除中间行和二级索引树叶子节点值经常变动的情况，那么上面的两种办法都是不行的，比如对商品销售量降序分页查询。</p>
+<p>这时候我们就可以采用使用场景最广的分页查询优化方案——延迟关联。</p>
+<p>所谓延迟关联，其实就是为了避免分页的每一行都进行回表查询，而是通过一种办法一次性找到需要行后再进行回表查询。下面直接给出延迟关联的查询语句，</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> good_info <span class="hljs-keyword">as</span> g1 <span class="hljs-keyword">JOIN</span> (<span class="hljs-keyword">SELECT</span> good_id <span class="hljs-keyword">FROM</span> good_info <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> create_time <span class="hljs-keyword">desc</span> LIMIT <span class="hljs-number">1000000</span>, <span class="hljs-number">20</span>) <span class="hljs-keyword">as</span> g2 <span class="hljs-keyword">on</span> g1.good_id <span class="hljs-operator">=</span> g2.good_id<br></code></pre></td></tr></table></figure>
+
+<p>耗时：135 ms</p>
+<p>explain 一下，</p>
+<table>
+<thead>
+<tr>
+<th align="left">id</th>
+<th align="left">select_type</th>
+<th align="left">table</th>
+<th align="left">partitions</th>
+<th align="left">type</th>
+<th align="left">possible_keys</th>
+<th align="left">key</th>
+<th align="left">key_len</th>
+<th align="left">ref</th>
+<th align="left">rows</th>
+<th align="left">filtered</th>
+<th align="left">Extra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left">PRIMARY</td>
+<td align="left">&lt;derived2&gt;</td>
+<td align="left">NULL</td>
+<td align="left">ALL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">NULL</td>
+<td align="left">1000020</td>
+<td align="left">100</td>
+<td align="left">NULL</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">PRIMARY</td>
+<td align="left">g1</td>
+<td align="left">NULL</td>
+<td align="left">eq_ref</td>
+<td align="left">PRIMARY</td>
+<td align="left">PRIMARY</td>
+<td align="left">8</td>
+<td align="left">g2.good_id</td>
+<td align="left">1</td>
+<td align="left">100</td>
+<td align="left">NULL</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">DERIVED</td>
+<td align="left">good_info</td>
+<td align="left">NULL</td>
+<td align="left">index</td>
+<td align="left">NULL</td>
+<td align="left">good_info_create_time_index</td>
+<td align="left">4</td>
+<td align="left">NULL</td>
+<td align="left">1000020</td>
+<td align="left">100</td>
+<td align="left">Using index</td>
+</tr>
+</tbody></table>
+<p>我们可以看到，自查询中使用了<strong>覆盖索引</strong>来获取符合条件的 good_id，再通过 good_id 去查询主键树来得到结果。最终回表查询次数缩减为页大小，也就是 20 行。</p>
+<blockquote>
+<p>如果一个索引包含（覆盖）我们所需要查询的所有字段值，我们就称之为<strong>覆盖索引</strong>。比如 create_time 的索引树叶子结点存在我们需要的主键的值，那么子查询就不需要回表查询。</p>
+</blockquote>
+<p>其实还有一种<strong>子查询优化</strong>的方法，和延迟关联的思路其实是一样的，都是减少回表查询次数，这里不再赘述。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>分页查询的优化是非常重要的， 对于线上系统来说，差的分页查询将会成为系统的瓶颈。而本文只从 MySQL 层面谈及了分页查询的多种优化方法，还有一类通过外部缓存实现的分页查询优化，我们以后有机会再说。如果你觉得我写得还不错，可以为点赞和关注～～</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/MySQL%E4%BC%98%E5%8C%96/" class="category-chain-item">MySQL优化</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>分页查询优化</div>
+      <div>http://example.com/2022/04/28/MySQL/MySQL 优化——分页查询优化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luowenjun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月28日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/18/Go%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94CGO%20%E6%9E%81%E7%AE%80%E8%AF%A6%E8%A7%A3/" title="一起来学Go——CGO极简教程（上）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一起来学Go——CGO极简教程（上）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/26/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E8%81%8A%E8%81%8A%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/" title="计数器表">
+                        <span class="hidden-mobile">计数器表</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.4.17/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"R4zu5FuwBMSxa84v6c17lK3r-gzGzoHsz","appKey":"XzeFn14YlO1IsQ7OcCIXPdxn","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
