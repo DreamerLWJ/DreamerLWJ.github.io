@@ -16,21 +16,21 @@
   <meta name="author" content="luowenjun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="爆肝源码 —— ThreadLocal 源码完全解析ThreadLocal 简介1. 官方文档解读1This class provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get o">
+    <meta name="description" content="有一天线程 A 和线程 B 都在抢一张一百元，Synchronized 实在看不下去了，请了一位叫 ThreadLocal 的大哥来印钱">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dreamer&#39;s Blog">
-<meta property="og:url" content="http://example.com/2022/08/31/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81%20%E2%80%94%E2%80%94%20ThreadLocal%20%E6%BA%90%E7%A0%81%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:title" content="爆肝源码 —— ThreadLocal 源码完全解析">
+<meta property="og:url" content="http://example.com/2022/05/27/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81%20%E2%80%94%E2%80%94%20ThreadLocal%20%E6%BA%90%E7%A0%81%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="Dreamer&#39;s Blog">
-<meta property="og:description" content="爆肝源码 —— ThreadLocal 源码完全解析ThreadLocal 简介1. 官方文档解读1This class provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get o">
+<meta property="og:description" content="有一天线程 A 和线程 B 都在抢一张一百元，Synchronized 实在看不下去了，请了一位叫 ThreadLocal 的大哥来印钱">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-08-31T08:17:56.610Z">
-<meta property="article:modified_time" content="2022-08-31T15:32:05.036Z">
+<meta property="article:published_time" content="2022-05-26T16:57:00.000Z">
+<meta property="article:modified_time" content="2022-08-31T15:41:19.307Z">
 <meta property="article:author" content="luowenjun">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Dreamer&#39;s Blog</title>
+  <title>爆肝源码 —— ThreadLocal 源码完全解析 - Dreamer&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +212,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="爆肝源码 —— ThreadLocal 源码完全解析"></span>
           
         </div>
 
@@ -223,8 +223,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-31 16:17" pubdate>
-          2022年8月31日 下午
+        <time datetime="2022-05-27 00:57" pubdate>
+          2022年5月27日 凌晨
         </time>
       </span>
     
@@ -292,12 +292,16 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">爆肝源码 —— ThreadLocal 源码完全解析</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="爆肝源码-——-ThreadLocal-源码完全解析"><a href="#爆肝源码-——-ThreadLocal-源码完全解析" class="headerlink" title="爆肝源码 —— ThreadLocal 源码完全解析"></a>爆肝源码 —— ThreadLocal 源码完全解析</h1><h2 id="ThreadLocal-简介"><a href="#ThreadLocal-简介" class="headerlink" title="ThreadLocal 简介"></a>ThreadLocal 简介</h2><h3 id="1-官方文档解读"><a href="#1-官方文档解读" class="headerlink" title="1. 官方文档解读"></a>1. 官方文档解读</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs wiki">This class provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get or set method) has its own, independently initialized copy of the variable. ThreadLocal instances are typically private static fields in classes that wish to associate state with a thread (e.g., a user ID or Transaction ID).<br></code></pre></td></tr></table></figure>
+                <blockquote>
+<p>公众号：技术小厨师</p>
+<p>关注小厨师，烹饪高超的技术餐</p>
+</blockquote>
+<h2 id="ThreadLocal-简介"><a href="#ThreadLocal-简介" class="headerlink" title="ThreadLocal 简介"></a>ThreadLocal 简介</h2><h3 id="1-官方文档解读"><a href="#1-官方文档解读" class="headerlink" title="1. 官方文档解读"></a>1. 官方文档解读</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs wiki">This class provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get or set method) has its own, independently initialized copy of the variable. ThreadLocal instances are typically private static fields in classes that wish to associate state with a thread (e.g., a user ID or Transaction ID).<br></code></pre></td></tr></table></figure>
 
 <p>意思非常简单，<code>ThreadLocal</code> 提供了一个线程本地变量的实现，这些本地变量在初始化的时候会进行拷贝，线程可以通过 <code>get</code> 和 <code>set</code> 方法与其进行交互。</p>
 <h3 id="2-官方示例"><a href="#2-官方示例" class="headerlink" title="2. 官方示例"></a>2. 官方示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ThreadId</span> &#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">AtomicInteger</span> <span class="hljs-variable">nextId</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AtomicInteger</span>(<span class="hljs-number">0</span>);<br><br>  <span class="hljs-comment">// 这里定义了一个 static 的 threadId </span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;Integer&gt; threadId =<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadLocal</span>&lt;Integer&gt;() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Integer <span class="hljs-title function_">initialValue</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-comment">// 因为 ++ 并不是一个线程安全的操作，所以这里使用了 atomic 的 CAS</span><br>      <span class="hljs-keyword">return</span> nextId.getAndIncrement();<br>    &#125;<br>  &#125;;<br><br>  <span class="hljs-comment">// Returns the current thread&#x27;s unique ID, assigning it if necessary</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">get</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">return</span> threadId.get();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -375,6 +379,27 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81/" class="category-chain-item">爆肝源码</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
 </div>
 
@@ -384,8 +409,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://example.com/2022/08/31/爆肝源码/爆肝源码 —— ThreadLocal 源码完全解析/</div>
+      <div>爆肝源码 —— ThreadLocal 源码完全解析</div>
+      <div>http://example.com/2022/05/27/爆肝源码/爆肝源码 —— ThreadLocal 源码完全解析/</div>
     </div>
     <div class="license-meta">
       
@@ -397,7 +422,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月31日</div>
+          <div>2022年5月27日</div>
         </div>
       
       
@@ -427,12 +452,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2022/08/18/%E4%B8%80%E8%B5%B7%E6%9D%A5%E5%AD%A6Go%E2%80%94%E2%80%94CGO%E6%9E%81%E7%AE%80%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%8A%EF%BC%89/" title="一起来学Go——CGO极简教程（上）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一起来学Go——CGO极简教程（上）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/18/%E4%BB%A3%E7%A0%81%E4%B8%8E%E8%89%BA%E6%9C%AF%E2%80%94%E2%80%94%E4%BB%8E%20COLA%20%E5%88%B0%E2%80%9C%E6%89%93%E6%89%AB%E5%8E%95%E6%89%80%E2%80%9D%EF%BC%88%E4%B8%8A%EF%BC%89/" title="代码与艺术——从 COLA 到“打扫厕所”（上）">
-                        <span class="hidden-mobile">代码与艺术——从 COLA 到“打扫厕所”（上）</span>
+                      <a href="/2022/04/28/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96/" title="分页查询优化">
+                        <span class="hidden-mobile">分页查询优化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
