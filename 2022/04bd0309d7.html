@@ -16,24 +16,31 @@
   <meta name="author" content="luowenjun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="如果你没有钱的话，我是说没有钱买缓存的话，这篇文章不妨看看？">
+    <meta name="description" content="不知道你听过一个叫 MQTT 的信鸽没有，但是它飞得确实很快！">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计数器表">
-<meta property="og:url" content="http://example.com/2022/03/26/MySQL/MySQL%20%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E8%81%8A%E8%81%8A%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/index.html">
+<meta property="og:title" content="EMQX 快速上手（MQTT协议）">
+<meta property="og:url" content="http://example.com/2022/04bd0309d7.html">
 <meta property="og:site_name" content="Dreamer&#39;s Blog">
-<meta property="og:description" content="如果你没有钱的话，我是说没有钱买缓存的话，这篇文章不妨看看？">
+<meta property="og:description" content="不知道你听过一个叫 MQTT 的信鸽没有，但是它飞得确实很快！">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/1.png">
-<meta property="og:image" content="c:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/2.png">
-<meta property="article:published_time" content="2022-03-26T04:21:00.000Z">
-<meta property="article:modified_time" content="2022-08-30T03:34:38.304Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220404222346716.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220404222735198.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/20220405013816.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405014144463.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405014447704.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405014810255.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405015208192.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405015353716.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405015436618.png">
+<meta property="article:published_time" content="2022-04-05T18:31:00.000Z">
+<meta property="article:modified_time" content="2022-09-03T18:12:45.360Z">
 <meta property="article:author" content="luowenjun">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="c:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/1.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220404222346716.png">
   
   
   
-  <title>计数器表 - Dreamer&#39;s Blog</title>
+  <title>EMQX 快速上手（MQTT协议） - Dreamer&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -221,7 +228,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="计数器表"></span>
+            <span id="subtitle" data-typed-text="EMQX 快速上手（MQTT协议）"></span>
           
         </div>
 
@@ -232,8 +239,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-03-26 12:21" pubdate>
-          2022年3月26日 中午
+        <time datetime="2022-04-06 02:31" pubdate>
+          2022年4月6日 凌晨
         </time>
       </span>
     
@@ -244,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          2k 字
         
       </span>
     
@@ -255,7 +262,7 @@
         
         
         
-          15 分钟
+          18 分钟
         
       </span>
     
@@ -301,7 +308,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">计数器表</h1>
+            <h1 style="display: none">EMQX 快速上手（MQTT协议）</h1>
             
             
               <div class="markdown-body">
@@ -310,150 +317,94 @@
 <p>公众号：技术小厨师</p>
 <p>关注小厨师，烹饪美味的技术餐</p>
 </blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>许多论坛或者电商系统都具备点赞数、评论数、浏览数等“计数”功能，好的设计可以实现不低并发量且精确的计数器需求。本文将抛开中间件等额外的设计，从 MySQL 出发简单聊聊如何设计计数器表。</p>
-<h2 id="糟糕的设计"><a href="#糟糕的设计" class="headerlink" title="糟糕的设计"></a>糟糕的设计</h2><p>下面以论坛系统为例子介绍其中一种计数器表设计，下面给出这个最简单的设计，我们有这样一个表 post，承担着主要的帖子读写业务，其中一个高频写入功能为帖子的点赞计数功能。</p>
-<table>
-<thead>
-<tr>
-<th>post_id</th>
-<th>post_content</th>
-<th>··· 其他列 ···</th>
-<th>likes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>## content ##</td>
-<td>···</td>
-<td>3</td>
-</tr>
-<tr>
-<td>2</td>
-<td>## content ##</td>
-<td>···</td>
-<td>5</td>
-</tr>
-<tr>
-<td>3</td>
-<td>## content ##</td>
-<td>···</td>
-<td>2</td>
-</tr>
-<tr>
-<td>···</td>
-<td>···</td>
-<td>···</td>
-<td>···</td>
-</tr>
-</tbody></table>
-<p>这个设计对于并发量很低的系统来说，可能没有什么问题，但是当并发量增加时，点赞的并发性能将会成为系统的瓶颈。</p>
+<h2 id="EMQX-介绍"><a href="#EMQX-介绍" class="headerlink" title="EMQX 介绍"></a>EMQX 介绍</h2><p>EMQX 是基于 Erlang&#x2F;OTP 平台开发的开源物联网 MQTT 消息服务器。而 MQTT 实际上是一种应用层协议，用于实现轻量的、发布订阅式的物联网消息协议。事实上，虽然 EMQX 的定位是物联网消息协议 MQTT 的 broker，但是它的处理能力已经超过了它的定义。而在之后的文章中，我们会为读者介绍使用 EMQX 来实现 IM 的推送系统。</p>
 <blockquote>
-<p>点赞是用户无意识的行为，在社交论坛上，点赞的触发次数远大于其他功能，对点赞计数的优化是非常重要的。</p>
+<p>本文受限于篇幅，不介绍 MQTT 协议</p>
 </blockquote>
-<p>首先我们必须明确，我们增加某个点赞计数时使用的 SQL 语句，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> post <span class="hljs-keyword">set</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">+</span> <span class="hljs-number">1</span> <span class="hljs-keyword">where</span> post_id <span class="hljs-operator">=</span> ?<br></code></pre></td></tr></table></figure>
+<h2 id="安装-EMQX"><a href="#安装-EMQX" class="headerlink" title="安装 EMQX"></a>安装 EMQX</h2><p>这里为了方便起见，我们只介绍压缩包安装，也方便利用我们前面所提到的 Centos 集群发布机制，</p>
+<h3 id="压缩包安装"><a href="#压缩包安装" class="headerlink" title="压缩包安装"></a>压缩包安装</h3><p>首先我们打开下面的网站，</p>
+<p><a target="_blank" rel="noopener" href="https://www.emqx.com/zh/try?product=broker">https://www.emqx.com/zh/try?product=broker</a></p>
+<p>然后我们选择我们对应的版本信息，然后下载压缩包即可，下载完成后进行解压即可，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">unzip emqx-4.4.2-otp24.1.5-3-el7-amd64.zip<br></code></pre></td></tr></table></figure>
 
-<p>我们知道，一个事务在更新某一行时，如果 where 子句使用的是索引，那么该事务需要首先获取该行的互斥锁。多个并发事务想要增加同一个帖子的点赞量时，这种设计将会使得这些事务只能串行执行。如图所示，</p>
-<img src="C:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/1.png" srcset="/img/loading.gif" lazyload  />
+<p>emqx 目录结构如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">emqx/<br>├── bin # 可执行文件的位置<br>├── data # 存放数据的位置<br>├── dynlibs<br>├── erts-12.1.5<br>├── etc # 配置文件位置及插件配置文件位置<br>├── lib<br>├── log # 日志存放位置<br>└── releases<br></code></pre></td></tr></table></figure>
 
+<h3 id="添加到全局环境变量（可选）"><a href="#添加到全局环境变量（可选）" class="headerlink" title="添加到全局环境变量（可选）"></a>添加到全局环境变量（可选）</h3><p>如果读者不太了解 Centos 的环境变量怎么配置，则可以使用下面的脚本修改执行即可，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">export EMQX_HOME=#读者 EMQX 的安装位置<br>echo &quot;PATH=\$PATH:$EMQX_HOME\bin&quot; &gt; /etc/profile.d/my_emqx.sh<br></code></pre></td></tr></table></figure>
 
+<p>比如读者的 EMQX 安装位置为 &#x2F;opt&#x2F;module&#x2F;emqx，则对应脚本替换如下，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">export EMQX_HOME=/opt/module/emqx<br>echo &quot;PATH=\$PATH:$EMQX_HOME/bin&quot; &gt; /etc/profile.d/my_emqx.sh<br></code></pre></td></tr></table></figure>
 
-<p>如果同一时间出现热门帖子时，多个用户同时点赞将会导致大量的数据库连接处于等待状态。为了优化这种事务串行的问题，我们介绍一种低成本且有效的方案——<strong>计数器表</strong>。</p>
-<h2 id="计数器表优化"><a href="#计数器表优化" class="headerlink" title="计数器表优化"></a>计数器表优化</h2><p>现在我们希望将帖子的点赞计数移到另外的表 post_counter，并且做一些冗余设计。</p>
-<table>
-<thead>
-<tr>
-<th>post_id</th>
-<th>slot</th>
-<th>likes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>0</td>
-<td>3</td>
-</tr>
-<tr>
-<td>1</td>
-<td>1</td>
-<td>5</td>
-</tr>
-<tr>
-<td>1</td>
-<td>2</td>
-<td>3</td>
-</tr>
-<tr>
-<td>1</td>
-<td>3</td>
-<td>4</td>
-</tr>
-<tr>
-<td>1</td>
-<td>4</td>
-<td>2</td>
-</tr>
-<tr>
-<td>2</td>
-<td>0</td>
-<td>3</td>
-</tr>
-<tr>
-<td>2</td>
-<td>1</td>
-<td>5</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2</td>
-<td>2</td>
-</tr>
-<tr>
-<td>2</td>
-<td>3</td>
-<td>6</td>
-</tr>
-<tr>
-<td>2</td>
-<td>4</td>
-<td>3</td>
-</tr>
-<tr>
-<td>···</td>
-<td></td>
-<td>···</td>
-</tr>
-</tbody></table>
-<p>DDL语句如下，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> post_counter<br>(<br>    post_id <span class="hljs-type">int</span>              <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    slot    tinyint unsigned <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,<br>    likes   <span class="hljs-type">int</span> <span class="hljs-keyword">default</span> <span class="hljs-number">0</span>    <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br>);<br></code></pre></td></tr></table></figure>
+<p>接下来就是让环境变量生效即可，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">source /etc/profile<br></code></pre></td></tr></table></figure>
 
-<p>对于每个 post_id，我们<strong>预先创建 5 行数据，同一个 post_id 的不同行用 slot（槽）标识</strong>。如果我们要进行增加点赞数，其 SQL 语句如下所示，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> post_counter <span class="hljs-keyword">set</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">+</span> <span class="hljs-number">1</span> <span class="hljs-keyword">where</span> slot <span class="hljs-operator">=</span> rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span> <span class="hljs-keyword">and</span> post_id <span class="hljs-operator">=</span> ?;<br></code></pre></td></tr></table></figure>
+<h3 id="启停命令使用"><a href="#启停命令使用" class="headerlink" title="启停命令使用"></a>启停命令使用</h3><p>对于中间件，我们上手的使用方法肯定无非就是启动，停止，重启啦。</p>
+<blockquote>
+<p>如果读者没有添加环境变量，那么之后的执行命令，读者都应该以绝对或者相对路径来指明 emqx 可执行文件的位置，譬如下列命令，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./emqx start<br></code></pre></td></tr></table></figure>
 
-<p>相应的减少点赞数如下所示，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> post_counter <span class="hljs-keyword">set</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">-</span> <span class="hljs-number">1</span> <span class="hljs-keyword">where</span> slot <span class="hljs-operator">=</span> rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span> <span class="hljs-keyword">and</span> post_id <span class="hljs-operator">=</span> ?;<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">/opt/module/emqx/bin/emqx start<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>下面我们尝试启动 emqx，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">emqx start<br></code></pre></td></tr></table></figure>
 
-<p>读者很容易发现，并发事务对同一个帖子的点赞数更新操作将会被随机分散到 5 行数据中，如图所示，</p>
-<img src="C:/Users/11740/Desktop/%E8%AE%A1%E6%95%B0%E5%99%A8%E8%A1%A8/2.png" srcset="/img/loading.gif" lazyload  />
+<p>启动成功后，应该看到输出包含以下内容，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">EMQ X Broker x.x.x is started successfully!<br></code></pre></td></tr></table></figure>
 
+<p>当修改了配置文件或者其他原因需要重新启动 EMQX 时，使用以下命令，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">emqx restart<br></code></pre></td></tr></table></figure>
 
+<p>重启成功后，应该看到输出包含以下内容，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">EMQ X Broker 4.4.2 is stopped: ok<br>EMQ X Broker 4.4.2 is started successfully!<br></code></pre></td></tr></table></figure>
 
-<p>这样能够很好地解决前面所提到的并发事务串行操作的问题。如果我们要获取一个帖子的点赞数，我们只需要做一个聚合查询即可，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">sum</span>(likes) <span class="hljs-keyword">from</span> post_counter <span class="hljs-keyword">where</span> post_id <span class="hljs-operator">=</span> ?;<br></code></pre></td></tr></table></figure>
+<p>如果要停止 emqx，可以使用以下命令，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">emqx stop<br></code></pre></td></tr></table></figure>
 
+<h3 id="控制台使用"><a href="#控制台使用" class="headerlink" title="控制台使用"></a>控制台使用</h3><p>在启动了 emqx 后，我们可以通过访问 18083 端口来使用控制台，</p>
+<p><img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220404222346716.png" srcset="/img/loading.gif" lazyload alt="image-20220404222346716"></p>
+<p>其默认的账号密码为 admin 和 public。</p>
+<p>进入到 EMQX 后，我们可以首先将语言改为中文，</p>
+<p><img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220404222735198.png" srcset="/img/loading.gif" lazyload alt="image-20220404222735198"></p>
+<p>下面我们来介绍一下 EMQX dashboard 的各项功能吧。</p>
+<ul>
+<li>监控：查看当前运行节点的各项指标</li>
+<li>客户端：查看已经连接的客户端</li>
+<li>主题：查看当前活动的主题</li>
+<li>订阅：查看当前的客户端与主题的订阅情况</li>
+<li>规则引擎：用SQL构建用于消息流的实时处理，本文不做介绍</li>
+<li>统计分析：主题的消息流入流出统计信息</li>
+<li>插件：这里提供了许多 EMQX 的附加功能，本文后续将会使用其中几个插件</li>
+<li>模块</li>
+<li>工具：主要包含 EMQX HTTP API 和 WebSocket 即时功能，其中 WebSocket 是一个基于浏览器的 MQTT 客户端工具</li>
+<li>告警：用于显示一些威胁到 EMQX 稳定运行的事件，比如主机剩余内存告急，CPU 荷载过高等信息。</li>
+<li>通用：这里包含一些用户管理相关功能，一些端口使用的有效信息。</li>
+</ul>
+<h2 id="MQTTX-客户端"><a href="#MQTTX-客户端" class="headerlink" title="MQTTX 客户端"></a>MQTTX 客户端</h2><p>有了 MQTT broker 还不够，我们还需要一个好用的 MQTT Client，那么这个这里推荐官方提供的客户端 MQTTX，</p>
+<p><a target="_blank" rel="noopener" href="https://mqttx.app/zh">https://mqttx.app/zh</a></p>
+<p>安装完成后，界面如下所示，使用方法非常简单，点击左侧 + 按钮，即可创建连接，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/20220405013816.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;" />
 
+<p>其连接的高级功能本文不做介绍，里面涉及一些 MQTT 协议的内容，如果读者了解 MQTT 协议，自然理解里面的一些设置的含义。</p>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>作者使用它来连接到本地的 192.168.100.100 虚拟机中的 EMQX，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405014144463.png" srcset="/img/loading.gif" lazyload alt="image-20220405014144463" style="zoom: 67%;" />
 
-<p><strong>每个帖子都预先创建 5 行会不会导致表的行数过多？</strong></p>
-<p>我们知道有个帖子可能发出来很长一段时间都没有人点赞，或者点赞数稀少，对于这种情况，预留 5 行会显得比较多余。于是，我们可以选择 update 的时候动态创建，这时候我们可以使用 on duplicate key 子句来解决这个需求。因此新的增加点赞语句如下所示，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> post_counter (post_id, likes, slot) <span class="hljs-keyword">values</span>(?, <span class="hljs-number">1</span>, rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span>) <span class="hljs-keyword">on</span> duplicate key <span class="hljs-keyword">update</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">+</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<p>点击连接后，如果连接成功将会显示如下的内容，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405014447704.png" srcset="/img/loading.gif" lazyload alt="image-20220405014447704" style="zoom: 50%;" />
 
-<p>相应的减少点赞数的语句如下，</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> post_counter (post_id, likes, slot) <span class="hljs-keyword">values</span>(?, <span class="hljs-number">-1</span>, rand() <span class="hljs-operator">*</span> <span class="hljs-number">5</span>) <span class="hljs-keyword">on</span> duplicate key <span class="hljs-keyword">update</span> likes <span class="hljs-operator">=</span> likes <span class="hljs-operator">-</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="订阅与发布"><a href="#订阅与发布" class="headerlink" title="订阅与发布"></a>订阅与发布</h3><p>现在我们再创建一个连接，用来测试之后的订阅与发布功能。现在我们两个连接都已经连接上了 EMQX，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405014810255.png" srcset="/img/loading.gif" lazyload alt="image-20220405014810255" style="zoom:50%;" />
 
+<p>我们通过“添加订阅”功能为两个连接添加同一个订阅，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405015208192.png" srcset="/img/loading.gif" lazyload alt="image-20220405015208192" style="zoom:50%;" />
 
+<p>现在我们通过其中一个连接给主题 test- topic 发送消息，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405015353716.png" srcset="/img/loading.gif" lazyload alt="image-20220405015353716" style="zoom:50%;" />
 
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文介绍了计数器表的设计方法，其适用于各种高频的计数需求。本文为了简单演示，使用的随机数窗口为 5，实际生产中，读者可以通过逐步增加窗口值大小，并通过压力测试来查看锁等待时间，以找到合适当前业务的窗口大小。</p>
-<p>至于有关 Redis 的高并发点赞计数我们以后再聊。不过作者认为，任何优化都应该优先考虑数据库层面的优化，在数据库层面优化没有达标的情况下，通过引入中间件缓存不过是堆积成本的暴力方法罢了。</p>
+<p>我们可以看到另一个连接接收到了新的消息，</p>
+<img src="https://raw.githubusercontent.com/JacketLWJ/my_picgo/master/img/image-20220405015436618.png" srcset="/img/loading.gif" lazyload alt="image-20220405015436618" style="zoom:50%;" />
+
+<p>至此有关 MQTTX 的介绍到此为止。</p>
 
                 
               </div>
@@ -472,7 +423,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/MySQL%E4%BC%98%E5%8C%96/" class="category-chain-item">MySQL优化</a>
+  <a href="/categories/EMQX/" class="category-chain-item">EMQX</a>
   
   
 
@@ -492,8 +443,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>计数器表</div>
-      <div>http://example.com/2022/03/26/MySQL/MySQL 优化——聊聊计数器表/</div>
+      <div>EMQX 快速上手（MQTT协议）</div>
+      <div>http://example.com/2022/04bd0309d7.html</div>
     </div>
     <div class="license-meta">
       
@@ -505,7 +456,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年3月26日</div>
+          <div>2022年4月6日</div>
         </div>
       
       
@@ -535,9 +486,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/02/Tool%E6%9D%82%E8%B0%88/Tool%20%E6%9D%82%E8%B0%88%E2%80%94%E2%80%94%E4%BC%98%E9%9B%85%E5%9C%B0%E9%85%8D%E7%BD%AE%20Centos%20%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/" title="高效配置 Centos 集群环境">
+                      <a href="/2022/04ac35f1ae.html" title="EMQX 的集群搭建">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">高效配置 Centos 集群环境</span>
+                        <span class="hidden-mobile">EMQX 的集群搭建</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -545,8 +496,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/20/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81/Java%E5%BA%8F%E5%88%97%E5%8C%96%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/" title="Java序列化源码解析（一）">
-                        <span class="hidden-mobile">Java序列化源码解析（一）</span>
+                      <a href="/2022/0413e8bb0e.html" title="高效配置 Centos 集群环境">
+                        <span class="hidden-mobile">高效配置 Centos 集群环境</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
