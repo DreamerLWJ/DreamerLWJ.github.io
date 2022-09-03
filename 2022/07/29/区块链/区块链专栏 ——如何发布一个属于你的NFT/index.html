@@ -1,0 +1,785 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/avatar.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="luowenjun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="快发一个代表爱的 NFT 吧～">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链专栏——如何发行属于你的代币（NFT、FT）">
+<meta property="og:url" content="http://example.com/2022/07/29/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%93%E6%A0%8F%20%E2%80%94%E2%80%94%E5%A6%82%E4%BD%95%E5%8F%91%E5%B8%83%E4%B8%80%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84NFT/index.html">
+<meta property="og:site_name" content="Dreamer&#39;s Blog">
+<meta property="og:description" content="快发一个代表爱的 NFT 吧～">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/20220904003530.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010656237.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010752498.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010918183.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010954599.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904011157586.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904011527387.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904012552666.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904012915763.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013149163.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013512349.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013835266.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013512349.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904014343626.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904014443666.png">
+<meta property="article:published_time" content="2022-07-28T16:57:00.000Z">
+<meta property="article:modified_time" content="2022-09-03T17:49:52.599Z">
+<meta property="article:author" content="luowenjun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/20220904003530.png">
+  
+  
+  
+  <title>区块链专栏——如何发行属于你的代币（NFT、FT） - Dreamer&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/indeximg-hover.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/scroll.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/gradient.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"R4zu5FuwBMSxa84v6c17lK3r-gzGzoHsz","app_key":"XzeFn14YlO1IsQ7OcCIXPdxn","server_url":"https://r4zu5fuw.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Dreamer&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="区块链专栏——如何发行属于你的代币（NFT、FT）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-29 00:57" pubdate>
+          2022年7月29日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">区块链专栏——如何发行属于你的代币（NFT、FT）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>本文还在持续更新，更新日期 2022.09.04</p>
+</blockquote>
+<p>你好，我是技术小厨师（Dreamer），欢迎阅读我的区块链专栏，和我一起开始 BlockChain 的学习之旅。我目前在研究区块链与其他行业结合，区块链与分布式机器学习等领域，对区块链有不深不浅的理解。此外，我还具备比较充分的互联网技术知识，我可以从非常多角度为你分析区块链，比如从区块链产业、分布式技术与区块链人文为你介绍区块链。这个专栏致力于为各类人群打造一个容易理解的区块链技术文章，也就是受众不限于区块链兴趣爱好者，区块链从业者，程序员，零基础的区块链门外汉。</p>
+<p>这一篇文章，我想带你感受一下所谓的 NFT 开发到发布上线的流程。相信大家没少听过元宇宙、NFT这些网络热词，但是许多人对 NFT 的印象仅仅是那个被炒到千万美元每平方的虚拟地产。本文侧重于以太坊代币的开发与发行实践，从使用区块链技术开始带大家逐渐走进区块链的世界。希望这篇文章能够让读者能够以短短的半小时就实现区块链上的“hello world”。</p>
+<h2 id="NFT-与-FT"><a href="#NFT-与-FT" class="headerlink" title="NFT 与 FT"></a>NFT 与 FT</h2><p>这节我们先介绍两个概念，一个是同质化代币（Fungible Token），另一个是非同质化代币（Non-Fungible Token），FT 与 NFT 的关系其实和货币与纪念币的关系很像。</p>
+<p>像比特币、以太币这些就是 FT，FT 是具有可计量单位的，比如每个 BTC 或者 ETH 都是相同的，可以互相交换的，这种关系其实和人民币、美元的类似。</p>
+<p>而 NFT 就稍微不一样了，NFT 的关系其实和纪念币的类似，每个纪念币可能有不同的花纹，而每个 NFT 也会有不同的资源，比如图片，电子艺术品，甚至是某种价值等。</p>
+<p>这里给大家看一个有趣的 NFT 项目，首先是以太猫（cryptokitties），以太猫是一个基于以太坊实现的 NFT 游戏，游戏类型是养成。这是它的官网，大家可以点进去看看视频，</p>
+<p><a target="_blank" rel="noopener" href="https://www.cryptokitties.co/">https://www.cryptokitties.co/</a></p>
+<p>在这个 NFT 项目中，核心其实就是用 NFT 实现的每个<strong>独一无二的猫咪</strong>，我带大家来看看它的底层数据存储吧，</p>
+<p><a target="_blank" rel="noopener" href="https://cn.etherscan.com/token/0x06012c8cf97bead5deae237070f9587f8e7a266d#inventory">https://cn.etherscan.com/token/0x06012c8cf97bead5deae237070f9587f8e7a266d#inventory</a></p>
+<p>我推荐你点开这个链接看看，点开后不要忘记拉到屏幕下方，</p>
+<p><img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/20220904003530.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到“库存”标签栏中显示了各种各样的图片，图片下方还有一些信息，比如 Token ID。相信你已经猜到了，这些图片及其 Token ID，构成了一个个 NFT，每个猫咪都是独特的，而 Token ID 就是它们在虚拟世界的身份证号。</p>
+<p>看完了 NFT 的项目示例，我本想介绍一个知名的 FT 项目，奈何以太坊没有什么成功的 FT 项目，因为 FT 项目的属性注定了它只能作为一个以太坊智能合约的副产物。在 ETH 的基础之上再弄一个同质化代币实在是没有什么意义。</p>
+<h2 id="准备活动"><a href="#准备活动" class="headerlink" title="准备活动"></a>准备活动</h2><p>可能有读者问，在以太坊上发布一个 NFT 的成本是多少，我可以告诉你，这比上线一个网站要容易得多～。但是要想和区块链交互，我们得首先准备好一些必要的工具。</p>
+<h3 id="1-安装以太坊钱包"><a href="#1-安装以太坊钱包" class="headerlink" title="1. 安装以太坊钱包"></a>1. 安装以太坊钱包</h3><p>别紧张，我们的整个流程都不会触碰到你的真实钱包，区块链钱包狭义上是一个帮你管理区块链账户的工具，广义上其实是区块链的客户端。而要发行 NFT，我们就必须与区块链交互，要和区块链交互就必须要有区块链的客户端。</p>
+<p>这里为了方便，我推荐大家使用 Chrome 浏览器或者 Edge 浏览器来安装一个浏览器钱包，也就是一个浏览器的扩展——MetaMask。你可以在 Chrome 应用商店中中搜索到 <strong>MetaMask</strong> 这个插件。</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010656237.png" srcset="/img/loading.gif" lazyload alt="image-20220904010656237" style="zoom:25%;" />
+
+<p>点进去把它安装好即可到下一步。</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010752498.png" srcset="/img/loading.gif" lazyload alt="image-20220904010752498" style="zoom: 25%;" />
+
+<h3 id="2-配置以太坊钱包"><a href="#2-配置以太坊钱包" class="headerlink" title="2. 配置以太坊钱包"></a>2. 配置以太坊钱包</h3><p>安装好后，可能会弹出一个窗口，</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010918183.png" srcset="/img/loading.gif" lazyload alt="image-20220904010918183" style="zoom:25%;" />
+
+<p>点了同意后，我们就进入了配置钱包的页面，这里我们选择“创建钱包”，</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904010954599.png" srcset="/img/loading.gif" lazyload alt="image-20220904010954599" style="zoom:25%;" />
+
+<p>输入密码后点击下一步，将会跳转到如下的界面，</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904011157586.png" srcset="/img/loading.gif" lazyload alt="image-20220904011157586" style="zoom:25%;" />
+
+<p>这里简单介绍一下“账户助记词”，“账户助记词”是用于快速恢复钱包的一种方式，你可以通过简单地输入几个单词就可以将你的钱包导入到另一个设备或者软件上，当然这个概念我们会在之后的理论中详细为大家讲解。这里读者可以点进去看看，也可以选择“稍后提醒”。</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904011527387.png" srcset="/img/loading.gif" lazyload alt="image-20220904011527387" style="zoom:25%;" />
+
+<p>当你跳转到这个界面的时候，恭喜你，你已经成功进入区块链的世界了，你拥有了钱包，虽然它在“以太坊 Ethereum 主网络”上没有💰。但是我会很快让你获得一些 ETH，尽管它不是真实的。</p>
+<h3 id="3-获取以太坊测试链的-ETH"><a href="#3-获取以太坊测试链的-ETH" class="headerlink" title="3. 获取以太坊测试链的 ETH"></a>3. 获取以太坊测试链的 ETH</h3><p>发币到以太坊主网是需要钱的，而且在发布到主网之前，开发者都需要大量的调试和修复。所以以太坊提供了非常多的测试链，这里我推荐使用 Ropsten 测试网络，因为它获得 ETH 的方式也非常简单。</p>
+<p>首先我们先将钱包连接的网络切换到“Ropsten 测试网络”，如果你的 MetaMask 默认没有显示测试网络，点击“显示&#x2F;隐藏”来显示测试网络，</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904012552666.png" srcset="/img/loading.gif" lazyload alt="image-20220904012552666" style="zoom: 50%;" />
+
+
+
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904012915763.png" srcset="/img/loading.gif" lazyload alt="image-20220904012915763" style="zoom: 50%;" />
+
+<p>列表显示测试网络时，我们选中“Ropsten 测试网络”即可，</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013149163.png" srcset="/img/loading.gif" lazyload alt="image-20220904013149163" style="zoom: 25%;" />
+
+<p>这时候我们就连接上了 Ropsten 了，我们也看到我们的 RopstenETH 为 0。接下来我们就来获取一些测试用途的 ETH 吧。</p>
+<p>这里提供一个非常方便的 Ropsten 水龙头，<a target="_blank" rel="noopener" href="https://faucet.metamask.io/">https://faucet.metamask.io/</a></p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013512349.png" srcset="/img/loading.gif" lazyload alt="image-20220904013512349" style="zoom:25%;" />
+
+<p>当你点击“request 1 ether from faucet”时，将会跳转到如下 MetaMask 页面，</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013835266.png" srcset="/img/loading.gif" lazyload alt="image-20220904013835266" style="zoom:25%;" />
+
+<p>网站通过 MetaMask 向你请求连接账户，选中你需要连接的账户，然后点击“下一步”，然后连接即可。</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904013512349.png" srcset="/img/loading.gif" lazyload alt="image-20220904013512349" style="zoom:25%;" />
+
+<p>点击上述按钮然后等待片刻，你将会看到账户余额发生变化。</p>
+<blockquote>
+<p>不过这个网站经常遭受 dos，你可能会看到错误，你可以选择下面的另一种方式</p>
+</blockquote>
+<p>当然还有另外一个网站也可以提供测试以太币的获取，<a target="_blank" rel="noopener" href="https://faucet.egorfine.com/">https://faucet.egorfine.com/</a></p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904014343626.png" srcset="/img/loading.gif" lazyload alt="image-20220904014343626" style="zoom:25%;" />
+
+<p>你只需要填入你的账户地址即可，账户地址可以在 MetaMask 中复制过来。</p>
+<img src="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20220904014443666.png" srcset="/img/loading.gif" lazyload alt="image-20220904014443666" style="zoom:50%;" />
+
+<p>好啦，如果你的账户也像我一样增加了 10 rETH，那么恭喜你，成功在以太坊上获得第一笔“数字资产”。是不是很简单？</p>
+<h2 id="编写合约"><a href="#编写合约" class="headerlink" title="编写合约"></a>编写合约</h2>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="category-chain-item">区块链</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>区块链专栏——如何发行属于你的代币（NFT、FT）</div>
+      <div>http://example.com/2022/07/29/区块链/区块链专栏 ——如何发布一个属于你的NFT/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>luowenjun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月29日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/18/%E4%B8%80%E8%B5%B7%E6%9D%A5%E5%AD%A6Go%E2%80%94%E2%80%94CGO%E6%9E%81%E7%AE%80%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%8A%EF%BC%89/" title="一起来学Go——CGO极简教程（上）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一起来学Go——CGO极简教程（上）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/27/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81/%E7%88%86%E8%82%9D%E6%BA%90%E7%A0%81%20%E2%80%94%E2%80%94%20ThreadLocal%20%E6%BA%90%E7%A0%81%E5%AE%8C%E5%85%A8%E8%A7%A3%E6%9E%90/" title="ThreadLocal 源码完全解析">
+                        <span class="hidden-mobile">ThreadLocal 源码完全解析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'DreamerLWJ/comments');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/DynamicLine.js"></script>
+<script src="//cdn.jsdelivr.net/gh/EmoryHuang/BlogBeautify@1.1/DynamicRibbon.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
