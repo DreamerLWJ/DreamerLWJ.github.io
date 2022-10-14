@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20221004221849999.png">
 <meta property="article:published_time" content="2022-10-10T09:44:00.000Z">
-<meta property="article:modified_time" content="2022-10-10T09:46:09.770Z">
+<meta property="article:modified_time" content="2022-10-14T08:57:18.667Z">
 <meta property="article:author" content="luowenjun">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/DreamerLWJ/my_picgo/master/img/image-20221004221849999.png">
@@ -243,7 +243,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k 字
+          13k 字
         
       </span>
     
@@ -254,7 +254,7 @@
         
         
         
-          101 分钟
+          107 分钟
         
       </span>
     
@@ -323,7 +323,7 @@
 <p>为什么需要职责单一？你是否曾经遇到过这样一个问题，突然因为某种原因要你修改程序的一部分，你只能在茫茫的 main 函数中寻找你要修改的逻辑，并且由于逻辑之间存在一定的依赖关系，你改完之后往往会出现 bug。</p>
 <p>职责不单一造成软件的变更成本很大。尤其在 TDD 的开发模式下，要求每一次变更都对影响的模块进行单元测试和集成测试。这是一件很痛苦的事情，你只是希望将某个值变更一下，或者插入某个语句。但是你却要对几乎整个程序重新测试，而且测试中还往往遇到其他问题。</p>
 <p>形象来说，单一职责原则要求我们通过合理的职责划分，使得各个程序模块之间解耦，模块内部内聚。最终的目标是应对需求变更时，能够将软件的影响范围缩到最小，变更的成本降低为最低。</p>
-<h3 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h3><p>开闭原则是指“对扩展开发，对修改关闭”。对于一个软件而言，在一个新的需求到来时，我们应该尽量在不修改原有代码，而是通过扩展来完成新的需求。</p>
+<h3 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h3><p>开闭原则是指“对扩展开放，对修改关闭”。对于一个软件而言，在一个新的需求到来时，我们应该尽量在不修改原有代码，而是通过扩展来完成新的需求。</p>
 <p>如果按照上面的 if-else if 或者 switch 去编写需求变更比较多的分支逻辑时，就容易出现以下的问题，</p>
 <ul>
 <li>当需要增加或删除分支处理条件时，我们需要去修改庞大的 if-else 或者 switch 块</li>
@@ -419,7 +419,7 @@
 <p>我们来简单介绍一下<strong>函数指针</strong>，</p>
 <h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p>通常我们说指针是指向变量的逻辑地址，那么函数指针其实就是指向函数的逻辑地址，通过函数指针我们能拿到函数的逻辑地址，并且调用函数。</p>
 <p>比如，通常我们说的<strong>回调函数</strong>，就可以通过函数指针来实现，（如下所示为 C 语言回调函数实现）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>&#123;<br>  	<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">void</span> <span class="hljs-params">(*CallbackFunc)</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span>; <span class="hljs-comment">// 定义回调函数</span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">doAdd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, CallbackFunc func)</span> &#123;<br>    <span class="hljs-type">int</span> res = a + b;<br>    sleep(<span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;计算完了，通知回调\n&quot;</span>);<br>    func(res);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">resultCallback</span><span class="hljs-params">(<span class="hljs-type">int</span> res)</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;函数执行完毕啦，相加结果是: %d&quot;</span>, res);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    doAdd(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, &amp;resultCallback);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="场景介绍"><a href="#场景介绍" class="headerlink" title="场景介绍"></a>场景介绍</h3><p>这个场景也比较贴近大多数 C 语言程序要处理的控制台程序场景，</p>
 <p>我们有加、减、乘三个操作函数，希望暴露给外部一个统一的函数调用，外部只需要将参数和操作函数类型传入，函数内部就能统一处理，也就是如下所示，</p>
@@ -440,6 +440,16 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c">OperRouter *router; <span class="hljs-comment">// 全局的 router，方便 oper() 使用</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">oper</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> operType)</span> &#123;<br>    <span class="hljs-keyword">return</span> route(a, b, operType, router);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 初始化三个策略类</span><br>    OperStrategy *addStrategy = newOperStrategy(ADD, &amp;add);<br>    OperStrategy *subStrategy = newOperStrategy(SUB, &amp;sub);<br>    OperStrategy *mulStrategy = newOperStrategy(MUL, &amp;mul);<br>    <span class="hljs-comment">// 初始化路由类</span><br>    router = newOperRouter();<br>    addOperStrategy(addStrategy, router);<br>    addOperStrategy(subStrategy, router);<br>    addOperStrategy(mulStrategy, router);<br><br>    <span class="hljs-comment">// 使用路由</span><br>    <span class="hljs-type">int</span> res = oper(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, ADD);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;add result: %d\n&quot;</span>, res);<br>    res = oper(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, SUB);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sub result: %d\n&quot;</span>, res);<br>    res = oper(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, MUL);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;mul result: %d\n&quot;</span>, res);<br><br>  	<span class="hljs-comment">// 养成好习惯，别忘了释放～</span><br>    <span class="hljs-built_in">free</span>(addStrategy);<br>    <span class="hljs-built_in">free</span>(subStrategy);<br>    <span class="hljs-built_in">free</span>(mulStrategy);<br>    <span class="hljs-built_in">free</span>(router);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>至此，我们就实现了 C 语言版本的策略模式啦～。</p>
+<h3 id="变更分支-1"><a href="#变更分支-1" class="headerlink" title="变更分支"></a>变更分支</h3><p>现在有个新的分支逻辑需要添加，假如要添加如下所示的除法函数到分支逻辑中，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">divs</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span> &#123;<br>    <span class="hljs-keyword">if</span> (b == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> a / b;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们按照类似 Java 的思路即可，首先添加枚举类型，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">OperType</span> &#123;</span><br>    ADD = <span class="hljs-number">1</span>, SUB, MUL, DIV <span class="hljs-comment">// 增加 DIV Type</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>创建新的策略并将其注册到路由中，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">...<br>OperStrategy *divStrategy = newOperStrategy(DIV, &amp;divs);<br>...<br>addOperStrategy(mulStrategy, router);<br></code></pre></td></tr></table></figure>
+
+<p>完事儿啦～，通过这种方式添加的新分支逻辑可以避免“污染”原有的逻辑，我们只需要在代码变更后测试新的分支逻辑即可。</p>
 <h2 id="Golang-实现"><a href="#Golang-实现" class="headerlink" title="Golang 实现"></a>Golang 实现</h2><p>面向对象语言 Java 和面向过程语言 C 已经实现了策略模式，Golang 实现思路类似，这里直接给出代码，不做赘述。</p>
 <p><strong>枚举</strong></p>
 <p>因为 Go 没有枚举，所以我们通过 <code>iota</code> 和 <code>const</code> 来实现类似枚举的效果，</p>
@@ -544,12 +554,6 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
-                    
-                      <a href="/2022/108a6772ac.html" title="策略模式详解（Java、C、Go）">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">策略模式详解（Java、C、Go）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
                     
                   </article>
                   <article class="post-next col-6">
